@@ -8,7 +8,6 @@ from src.components.data_transformation import DataTransformation
 
 @dataclass
 class DataIngestionConfig:
-    # Bizning toza fayllarimiz turgan manzil
     raw_data_dir: str = os.path.join('notebook', 'data', 'joined_data')
 
 class DataIngestion:
@@ -26,20 +25,16 @@ class DataIngestion:
             csv_files = glob.glob(os.path.join(raw_dir, "*.csv"))
             logging.info(f"Jami {len(csv_files)} ta tayyor CSV fayl topildi.")
 
-            # Ingestion faqat papka manzilini qaytaradi
             return raw_dir
             
         except Exception as e:
             logging.error("Data Ingestion jarayonida xatolik yuz berdi")
             raise CustomException(e, sys)
 
-# Tizimni to'liq sinab ko'rish uchun yozilgan qism
 if __name__ == "__main__":
-    # 1. Ingestion qadamini ishga tushiramiz
     ingestion = DataIngestion()
     raw_data_directory = ingestion.initiate_data_ingestion()
     
-    # 2. Transformation qadamini ishga tushiramiz
     transformation = DataTransformation()
     aral_path, regions_path = transformation.initiate_data_transformation(raw_data_directory)
     

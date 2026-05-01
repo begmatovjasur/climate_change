@@ -4,10 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-# ==========================================
-# 1. PAGE CONFIGURATION & CSS
-# ==========================================
-st.set_page_config(page_title="CCKP Uzbekistan", layout="wide")
+st.set_page_config(page_title=" Uzbekistan", layout="wide")
 
 st.markdown("""
     <style>
@@ -22,9 +19,6 @@ st.markdown("""
 st.markdown('<div class="main-header">Climate Change Knowledge Portal: Uzbekistan</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Historical Climate Data, ML Projections, and Aral Sea Disaster Analysis</div>', unsafe_allow_html=True)
 
-# ==========================================
-# 2. DATA LOADING & CLEANING
-# ==========================================
 @st.cache_data
 def load_data():
     df = pd.read_csv("data/processed/regions_master.csv")
@@ -53,9 +47,7 @@ except Exception:
     st.error("Data files not found. Please check 'data/processed' directory.")
     st.stop()
 
-# ==========================================
-# 3. SIDEBAR (FILTERS)
-# ==========================================
+
 st.sidebar.markdown("###  LOCATION")
 location = st.sidebar.selectbox("Select Location", sorted(df['Viloyat'].dropna().unique()))
 
@@ -75,20 +67,14 @@ st.sidebar.download_button(
     mime="text/csv"
 )
 
-# ==========================================
-# 4. MAIN CONTENT (TABS)
-# ==========================================
+
 tab_hist, tab_future, tab_aral = st.tabs([
     "Historical Time Series", 
     "Future Projections (2050)", 
     "Aral Sea Disaster"
 ])
 
-# ---------------------------------------------------------
-# TAB 1: HISTORICAL (Endi to'liq - 2 ta grafik bilan)
-# ---------------------------------------------------------
 with tab_hist:
-    # 1-GRAFIK: Yillik Dinamika (Line Chart)
     col1, col2 = st.columns([7, 3])
     with col1:
         fig1 = px.line(df_filtered, x='Year', y=parameter, markers=True, line_shape='spline')
@@ -101,7 +87,6 @@ with tab_hist:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # 2-GRAFIK: O'n yilliklar (Decadal Bar Chart) - TIKLANDI
     col3, col4 = st.columns([7, 3])
     with col3:
         decadal_df = df_filtered.groupby('Decade_Str')[parameter].mean().reset_index()
@@ -113,12 +98,7 @@ with tab_hist:
     with col4:
         st.markdown(f"""<div class="desc-box"><div class="desc-title">Decadal Climatology</div><b>Understanding the Data:</b><br><br>This bar chart smoothes out annual variations to reveal broader climate trends over <b>decades</b>. A persistent upward or downward stair-step pattern strongly indicates systemic climate change rather than natural year-to-year variability.</div>""", unsafe_allow_html=True)
 
-
-# ---------------------------------------------------------
-# TAB 2: FUTURE PROJECTIONS (Endi to'liq - 2 ta grafik bilan)
-# ---------------------------------------------------------
 with tab_future:
-    # 1-GRAFIK: Machine Learning Line Chart
     col_f1, col_f2 = st.columns([7, 3])
     x_hist, y_hist = df_filtered['Year'].values, df_filtered[parameter].values
     y_future = [] 
@@ -144,7 +124,6 @@ with tab_future:
 
     st.markdown("<br><hr><br>", unsafe_allow_html=True)
 
-    # 2-GRAFIK: Iqlim Siljishi (Boxplot) - TIKLANDI
     if len(y_future) > 0:
         col_f3, col_f4 = st.columns([7, 3])
         with col_f3:
@@ -163,10 +142,6 @@ with tab_future:
         with col_f4:
             st.markdown(f"""<div class="desc-box"><div class="desc-title">Climate Shift Analysis (Boxplot)</div><b>Why is this important?</b><br><br>This distribution chart shows how the <b>extremes</b> (not just the average) are expected to shift. A shift up or down indicates a fundamental change in the region's climate baseline, while wider boxes indicate more chaotic weather.</div>""", unsafe_allow_html=True)
 
-
-# ---------------------------------------------------------
-# TAB 3: ARAL SEA DISASTER
-# ---------------------------------------------------------
 with tab_aral:
     st.markdown("### The Aral Sea Desiccation: Causes and Dynamics")
     
@@ -192,7 +167,6 @@ with tab_aral:
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown(f"### Micro-Climatic Impact & Climate Feedback Loop in {location}")
     
-    # Qaraqalpog'iston xatosi to'g'rilangan ro'yxat
     aral_regions = ['qaraqal', 'qoraqal', 'karakal', 'xoraz', 'khore']
     is_aral_region = any(reg in location.lower() for reg in aral_regions)
 

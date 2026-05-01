@@ -12,7 +12,7 @@ from src.exception import CustomException
 
 @dataclass
 class ModelTrainerConfig:
-    # Model bashoratlari tayyor bo'lib saqlanadigan manzil
+
     future_data_path: str = os.path.join("data", "processed", "future_predictions.csv")
 
 class ModelTrainer:
@@ -30,7 +30,6 @@ class ModelTrainer:
             future_years = np.arange(2025, 2051)
             future_results = []
 
-            # Biz baholaydigan ML modellar ro'yxati
             models = {
                 "Linear Regression": LinearRegression(),
                 "Ridge Regression": Ridge(),
@@ -54,7 +53,6 @@ class ModelTrainer:
                     best_model = None
                     best_score = -float("inf")
 
-                    # 1. Barcha modellarni sinab ko'rish va R2 score bo'yicha eng yaxshisini tanlash
                     for name, model in models.items():
                         model.fit(X, y)
                         y_pred = model.predict(X)
@@ -65,16 +63,13 @@ class ModelTrainer:
                             best_model = model
                             best_model_name = name
 
-                    # 2. Eng zo'r model bilan 2050-yilgacha bashorat qilish
                     X_future = pd.DataFrame({'Year': future_years})
                     y_future_pred = best_model.predict(X_future)
 
-                    # 3. CCKP EFFECT: To'g'ri chiziq bo'lib qolmasligi uchun haqiqiy iqlim tebranishlarini qo'shamiz
-                    std_dev = np.std(y - best_model.predict(X)) # Tarixiy xatolik (tebranish) me'yori
+                    std_dev = np.std(y - best_model.predict(X)) 
                     noise = np.random.normal(0, std_dev * 0.8, len(future_years))
                     y_future_realistic = y_future_pred + noise
 
-                    # Natijalarni bitta ro'yxatga yig'ish
                     for i, year in enumerate(future_years):
                         future_results.append({
                             'Viloyat': viloyat,
@@ -83,7 +78,6 @@ class ModelTrainer:
                             'Predicted_Value': y_future_realistic[i]
                         })
 
-            # Barcha viloyat va parametrlar bo'yicha tayyor bashoratlarni CSV qilib saqlash
             future_df = pd.DataFrame(future_results)
             os.makedirs(os.path.dirname(self.model_trainer_config.future_data_path), exist_ok=True)
             future_df.to_csv(self.model_trainer_config.future_data_path, index=False)

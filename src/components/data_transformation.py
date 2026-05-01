@@ -31,9 +31,7 @@ class DataTransformation:
                     df.to_csv(self.transformation_config.aral_master_path, index=False)
                     logging.info("Aral Sea fayli alohida saqlandi.")
                 else:
-                    # ===== XATONI TO'G'RILASH QISMI =====
-                    # Agar 'Viloyat' ustuni yo'q bo'lsa, fayl nomidan olib avtomatik qo'shamiz
-                    # Masalan: 'andijon.csv' yoki 'Andijon.csv' -> 'Andijon'
+                    
                     if 'Viloyat' not in df.columns:
                         viloyat_nomi = file_name.replace('.csv', '').capitalize()
                         df['Viloyat'] = viloyat_nomi
