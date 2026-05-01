@@ -7,7 +7,7 @@ from plotly.subplots import make_subplots
 # ==========================================
 # 1. PAGE CONFIGURATION & CSS
 # ==========================================
-st.set_page_config(page_title="CCKP Uzbekistan", layout="wide", page_icon="🌍")
+st.set_page_config(page_title="CCKP Uzbekistan", layout="wide")
 
 st.markdown("""
     <style>
@@ -56,17 +56,17 @@ except Exception:
 # ==========================================
 # 3. SIDEBAR (FILTERS)
 # ==========================================
-st.sidebar.markdown("### 📍 LOCATION")
+st.sidebar.markdown("###  LOCATION")
 location = st.sidebar.selectbox("Select Location", sorted(df['Viloyat'].dropna().unique()))
 
-st.sidebar.markdown("### 📊 CLIMATE VARIABLE")
+st.sidebar.markdown("### CLIMATE VARIABLE")
 variables = [col for col in df.columns if col not in ['Year', 'Viloyat', 'Category', 'Decade', 'Decade_Str']]
 parameter = st.sidebar.selectbox("Select Variable", variables)
 
 df_filtered = df[df['Viloyat'] == location]
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 📥 EXPLORE OUR DATA")
+st.sidebar.markdown("### EXPLORE OUR DATA")
 csv_data = convert_df_to_csv(df_filtered)
 st.sidebar.download_button(
     label="Download Data (CSV)",
@@ -79,9 +79,9 @@ st.sidebar.download_button(
 # 4. MAIN CONTENT (TABS)
 # ==========================================
 tab_hist, tab_future, tab_aral = st.tabs([
-    "📊 Historical Time Series", 
-    "🔮 Future Projections (2050)", 
-    "🌊 Aral Sea Disaster"
+    "Historical Time Series", 
+    "Future Projections (2050)", 
+    "Aral Sea Disaster"
 ])
 
 # ---------------------------------------------------------
@@ -168,7 +168,7 @@ with tab_future:
 # TAB 3: ARAL SEA DISASTER
 # ---------------------------------------------------------
 with tab_aral:
-    st.markdown("### 🏜️ The Aral Sea Desiccation: Causes and Dynamics")
+    st.markdown("### The Aral Sea Desiccation: Causes and Dynamics")
     
     col_a1, col_a2 = st.columns(2)
     with col_a1:
@@ -190,7 +190,7 @@ with tab_aral:
         st.plotly_chart(fig_effect, use_container_width=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
-    st.markdown(f"### 📍 Micro-Climatic Impact & Climate Feedback Loop in {location}")
+    st.markdown(f"### Micro-Climatic Impact & Climate Feedback Loop in {location}")
     
     # Qaraqalpog'iston xatosi to'g'rilangan ro'yxat
     aral_regions = ['qaraqal', 'qoraqal', 'karakal', 'xoraz', 'khore']
