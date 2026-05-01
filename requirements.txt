@@ -1,5 +1,8 @@
 pandas
 numpy
 seaborn
+plotly
+streamlit
 matplotlib
+scikit-learn
 -e .
