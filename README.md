@@ -30,3 +30,4 @@ The project handles raw data preprocessing, missing value interpolation, and inc
 ```bash
    git clone [https://github.com/begmatovjasur/climate_change.git](https://github.com/begmatovjasur/climate_change.git)
    cd climate_change
+https://climatechange-zxasbd9r6wmlrvzedp9avn.streamlit.app/
