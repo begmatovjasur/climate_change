@@ -24,10 +24,5 @@ The project handles raw data preprocessing, missing value interpolation, and inc
 - Plotly for data visualization
 - Streamlit for the web interface
 
-## How to Run Locally
-
-1. Clone this repository:
-```bash
-   git clone [https://github.com/begmatovjasur/climate_change.git](https://github.com/begmatovjasur/climate_change.git)
-   cd climate_change
+## How to Run 
 https://climatechange-zxasbd9r6wmlrvzedp9avn.streamlit.app/
